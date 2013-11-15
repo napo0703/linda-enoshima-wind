@@ -22,10 +22,16 @@ EM::run do
 
   EM::add_periodic_timer 5 do
     dir = ["北","北北西","北西","西北西","西","西南西","南西","南南西",
-           "南","南南東","南東","東南東","東","東北東","北東","北北東"]
-    direction = dir[rand(16)]
-    power = (rand * 10).round(1)
-    ts.write ["wind",power,direction]
-    puts "[wind,#{power},#{direction}]"
+           "南","南南東","南東","東南東","東","東北東","北東","北北東","無風"]
+    direction = dir[rand(17)]
+    power = (rand * 11).round(1)
+    if direction == dir[16] || power == 0.0
+      power = 0.0
+      ts.write ["wind",power,direction]
+      puts "[wind,#{power},#{direction}]"
+    else
+      ts.write ["wind",power,direction]
+      puts "[wind,#{power},#{direction}]"
+    end
   end
 end

@@ -9,7 +9,7 @@ require 'em-rocketio-linda-client'
 def scraping
   doc = Nokogiri::HTML(open('http://enoshima-yacht-harbor.jp/kishou.htm'))
   tds= doc.xpath("//td")
-  $as = tds[16].xpath(".//b").text.sub(/[^\d\.].*$/,'')
+  $as = tds[16].xpath(".//b").text.sub(/[^\d\.].*$/,'').to_f
   $ad = tds[19].xpath(".//b").text
   $ms = tds[22].xpath(".//b").text.sub(/[^\d\.].*$/,'')
   $md = tds[25].xpath(".//b").text
