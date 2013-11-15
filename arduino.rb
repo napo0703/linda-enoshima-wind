@@ -41,17 +41,17 @@ EM::run do
         else
           #direction = dir.index(tuple[2]) * 22.5 # 本来ならばこれ
           direction = dir.index(tuple[2]) * 4.8   # サーボが特殊なため
-          power = tuple[1].round * 23 + 25 # 25以上でないと風車が動かない
-          if power > 255 # 風速10m/s以上のとき
+          power = tuple[1].round * 11.5 + 25 # 25以上でないと風車が動かない
+          if power > 255 # 風速20m/s以上のとき
             power = 255
           end
           p "角度：#{dir.index(tuple[2]) * 22.5}度、" + "風力：#{power}"
           arduino.servo_write 9,direction.round #サーボ
           arduino.digital_write 5,false #DCモータ
           arduino.digital_write 4,true
-          arduino.analog_write 3,255 # 風車の動き出しに勢いをつける
-          sleep 0.1
-          arduino.analog_write 3,power
+          #arduino.analog_write 3,255 # 風車の動き出しに勢いをつける
+          #sleep 0.1
+          arduino.analog_write 3,power.round
         end
       end
     end
