@@ -26,3 +26,16 @@
     % export LINDA_SPACE=enoshima
     % ruby linda.rb
     % ruby arduino.rb
+
+
+## サービスとしてインストール
+
+launchd (Mac OSX用)
+
+    % sudo foreman export launchd /Library/LaunchDaemons/ --app linda-enoshima -u `whoami`
+    % sudo launchctl load -w /Library/LaunchDaemons/linda-enoshima-main-1.plist
+
+upstart (Ubuntu/Debian/RaspberryPi用)
+
+    % sudo foreman export upstart /etc/init/ --app linda-enoshima -d `pwd` -u `whoami`
+    % sudo service linda-enoshima start
