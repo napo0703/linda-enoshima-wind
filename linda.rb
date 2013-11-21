@@ -9,11 +9,11 @@ require 'em-rocketio-linda-client'
 def scraping
   doc = Nokogiri::HTML(open('http://enoshima-yacht-harbor.jp/kishou.htm'))
   tds= doc.xpath("//td")
-  $as = tds[16].xpath(".//b").text.sub(/[^\d\.].*$/,'').to_f
+  $as = tds[16].xpath(".//b").text.sub(/[^\d\.].*$/,'')
   $ad = tds[19].xpath(".//b").text
   $ms = tds[22].xpath(".//b").text.sub(/[^\d\.].*$/,'')
   $md = tds[25].xpath(".//b").text
-  puts "風速 : #{$as} m, 風向：#{$ad}, (#{Time.now})"
+  puts "風速 : #{$as.to_f} m, 風向：#{$ad}, (#{Time.now})"
 end
 
 EM::run do
@@ -36,7 +36,7 @@ EM::run do
     scraping
   end
 
-  EM::add_periodic_timer 5 do
+  EM::add_periodic_timer 6 do
     ts.write ["wind",$as,$ad]
   end
 end

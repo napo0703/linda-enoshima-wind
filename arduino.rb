@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 require 'rubygems'
-require 'nokogiri'
-require 'open-uri'
 require 'arduino_firmata'
 require 'eventmachine'
 require 'em-rocketio-linda-client'
@@ -20,8 +18,8 @@ EM::run do
     puts "Linda connect!! <#{linda.io.session}> (#{linda.io.type})"
     ts.watch ["wind"] do |tuple|
       p tuple
-      dir = ["北","北北西","北西","西北西","西","西南西","南西","南南西",
-             "南","南南東","南東","東南東","東","東北東","北東","北北東","無風"]
+      dir = ["北","北北東","北東","東北東","東","東南東","南東","南南東",
+             "南","南南西","南西","西南西","西","西北西","北西","北北西","無風"]
       next if tuple.size != 3
 
       # 16方位以外はだめ
@@ -33,7 +31,7 @@ EM::run do
       end
 
       # 風速は0~50までの値しかだめ
-      if flag == 1 && tuple[1] >= 0.0 && tuple[1] < 50.0
+      if flag == 1 && tuple[1].to_f >= 0.0 && tuple[1].to_f < 50.0
         if tuple[2] == dir[16]  # 無風のとき
           arduino.digital_write 5,false
           arduino.digital_write 4,false
@@ -41,8 +39,8 @@ EM::run do
         else
           #direction = dir.index(tuple[2]) * 22.5 # 本来ならばこれ
           direction = dir.index(tuple[2]) * 4.8   # サーボが特殊なため
-          power = tuple[1].round * 11.5 + 25 # 25以上でないと風車が動かない
-          if power > 255 # 風速20m/s以上のとき
+          power = tuple[1].to_i * 10 + 65 # 25以上でないと風車が動かない
+          if power > 255 # 風速10m/s以上のとき
             power = 255
           end
           p "角度：#{dir.index(tuple[2]) * 22.5}度、" + "風力：#{power}"
