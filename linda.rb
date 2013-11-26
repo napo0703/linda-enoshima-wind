@@ -26,6 +26,17 @@ EM::run do
   linda.io.on :connect do
     puts "Linda connect!! <#{linda.io.session}> (#{linda.io.type})"
     scraping
+    ts.watch ["wind","random"] do |tuple|
+      dir = ["北","北北西","北西","西北西","西","西南西","南西","南南西",
+             "南","南南東","南東","東南東","東","東北東","北東","北北東","無風"]
+      direction = dir[rand(17)]
+      power = (rand * 11).round(1).to_s
+      if direction == "無風" or power == "0.0"
+        ts.write ["wind","0.0","無風"]
+      else
+        ts.write ["wind","#{power}","#{direction}"]
+      end
+    end
   end
 
   linda.io.on :disconnect do

@@ -52,6 +52,7 @@ GEM
     libwebsocket (0.1.8)
       addressable
       websocket
+    nokogiri (1.5.9)
     serialport (1.1.0)
     thor (0.18.1)
     websocket (1.1.1)
@@ -60,8 +61,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  nokogiri
-  open-uri
+  arduino_firmata
   em-rocketio-linda-client
   eventmachine
-  arduino_firmata
+  foreman
+  nokogiri

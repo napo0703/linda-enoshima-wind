@@ -18,8 +18,8 @@ EM::run do
     puts "Linda connect!! <#{linda.io.session}> (#{linda.io.type})"
     ts.watch ["wind"] do |tuple|
       p tuple
-      dir = ["北","北北東","北東","東北東","東","東南東","南東","南南東",
-             "南","南南西","南西","西南西","西","西北西","北西","北北西","無風"]
+      dir = ["北","北北西","北西","西北西","西","西南西","南西","南南西",
+             "南","南南東","南東","東南東","東","東北東","北東","北北東","無風"]
       next if tuple.size != 3
 
       # 16方位以外はだめ
@@ -39,7 +39,7 @@ EM::run do
         else
           #direction = dir.index(tuple[2]) * 22.5 # 本来ならばこれ
           direction = dir.index(tuple[2]) * 4.8   # サーボが特殊なため
-          power = tuple[1].to_i * 10 + 65 # 25以上でないと風車が動かない
+          power = tuple[1].to_i * 7 + 35 # 25以上でないと風車が動かない
           if power > 255 # 風速10m/s以上のとき
             power = 255
           end
