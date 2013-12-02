@@ -1,3 +1,6 @@
+# linda-enoshima-windのデモ用
+# 風向・風速を6秒に1回ランダムにLindaに書き込む
+
 # -*- encoding: utf-8 -*-
 require 'rubygems'
 require 'nokogiri'
