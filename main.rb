@@ -2,9 +2,12 @@
 require 'rubygems'
 require 'eventmachine'
 require 'em-rocketio-linda-client'
+require 'arduino_firmata'
 $stdout.sync = true
 
 EM::run do
+  arduino = ArduinoFirmata.connect ENV["ARDUINO"], :eventmachine => true
+  puts "Arduino connect!! (firmata version v#{arduino.version})"
   url   =  ENV["LINDA_BASE"]  || ARGV.shift || "http://linda.masuilab.org"
   space =  ENV["LINDA_SPACE"] || "delta"
   puts "Linda connecting.. #{url}"
