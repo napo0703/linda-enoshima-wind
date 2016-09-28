@@ -1,7 +1,6 @@
 source "https://rubygems.org"
 
-gem "nokogiri"
-gem "em-rocketio-linda-client"
-gem "eventmachine"
-gem "arduino_firmata"
-gem "foreman"
+gem 'nokogiri'
+gem 'linda-socket.io-client'
+gem 'eventmachine'
+gem 'foreman'
