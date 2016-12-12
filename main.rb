@@ -4,7 +4,7 @@ require 'open-uri'
 require 'linda-socket.io-client'
 require 'eventmachine'
 
-linda = Linda::SocketIO::Client.connect 'http://wakaruland-linda.herokuapp.com'
+linda = Linda::SocketIO::Client.connect 'http://linda-server.herokuapp.com'
 ts = linda.tuplespace('masuilab')
 
 def getWind
@@ -16,6 +16,7 @@ def getWind
   #$md =  tds[25].xpath(".//b").text
   #cmd = "#{$as} #{$ad} #{$ms} #{$md} (#{Time.now})"
   puts "風速: #{$as}m/s, 風向: #{$ad} (#{Time.now})"
+  $value = "#{$ad} #{$as}m/s"
 end
 
 EM::run do
@@ -35,6 +36,17 @@ EM::run do
   end
 
   EM::add_periodic_timer 10 do
-    ts.write(where: "enoshima", type: "web", name: "wind", direction: $ad, speed: $as.to_f)
+    ts.write(
+      wakaruland: "data",
+      from: "enoshima_wind",
+      value: $value,
+      displaytime: "20",
+      time: Time.now,
+      background: "https://i.gyazo.com/d13f222ba330bf686b6cdcd98b264464.png",
+      onclick: {
+        where: "delta",
+        type: "say",
+        value: "江ノ島の風、#{$ad}、#{$as}メートル"
+      })
   end
 end
